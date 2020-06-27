@@ -1,10 +1,12 @@
 package application;
 
+import txtUtils.TxtReader;
+
 public class main {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		TxtReader test = new TxtReader("masini");
+		test.readLine(0);
 	}
 
 }
