@@ -41,7 +41,7 @@ public class TxtReader {
 				lineScanner = new Scanner(fileScanner.nextLine());
 				lineNumber--;
 			}
-			lineScanner.useDelimiter(": |,|, "); // Set delimiters for the txt files
+			lineScanner.useDelimiter(": |, |,"); // Set delimiters for the txt files
 			tag = lineScanner.next(); // Retrieve the tag for the line
 
 			// For each attribute, save it into the array
@@ -49,10 +49,8 @@ public class TxtReader {
 				String currentAttribute = lineScanner.next();
 				attributes.add(currentAttribute);
 			}
+			
 			lineScanner.close();
-
-			for (String a : attributes)
-				System.out.print(a + "\n");
 			fileScanner.close();
 		} catch (FileNotFoundException e) {
 
