@@ -1,20 +1,19 @@
 package xmlUtils;
 
-import java.io.*;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 
-import org.xml.sax.*;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.sax.SAXTransformerFactory;
+import javax.xml.transform.sax.TransformerHandler;
+import javax.xml.transform.stream.StreamResult;
 
-import txtUtils.TxtManager;
-import txtUtils.TxtReader;
+import org.xml.sax.SAXException;
+
 import utils.FileParser;
 import utils.line;
-
-import javax.xml.parsers.*;
-import javax.xml.transform.*;
-import javax.xml.transform.stream.*;
-import javax.xml.transform.sax.*;
 
 public class TxtToXml {
 	private StreamResult xmlFile; // Holds the path of the file to be created
