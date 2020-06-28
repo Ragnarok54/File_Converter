@@ -1,4 +1,5 @@
 package xmlUtils;
+
 import java.io.*;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -16,65 +17,80 @@ import javax.xml.transform.stream.*;
 import javax.xml.transform.sax.*;
 
 public class TxtToXml {
-    StreamResult out;
-    TransformerHandler th;
-    
-    public TxtToXml() {
-    	out =  new StreamResult(Paths.get("").toAbsolutePath().toString() + "\\Files\\Output\\" + "files.xml");
-    	convert();
-    }
+	private StreamResult xmlFile; // Holds the path of the file to be created
+	private TransformerHandler convertor; // Handles the conversions from txt to xml
 
-    public void convert() {
-        try {
-            openXml();
-            
-            FileParser fileParser = new FileParser();
-    		int fileNumber = fileParser.getFileNumber();
-            
-    		for (int fileIterator = 0; fileIterator < fileNumber; fileIterator++) { // For each txt file
-            	String[] fileName = fileParser.getFileName().split(".txt"); // Get the name of the file without ".txt"
-            	th.startElement(null, null, fileName[0], null); // First attribute of current file id the name of the file
-            	
-            	for (line fileLine : fileParser.getAttributes()) { // Sum up all the attributes
-    				String attributes = ""; 
-    				for (String attribute : fileLine.getAttributes()) {
-    					if (fileLine.getAttributes().get(fileLine.getAttributes().size() - 1) == attribute)
-    						attributes += attribute;
-    					else
-    						attributes += (attribute + ", "); // Add ',' only if the attribute is not the last one
-    				}
-    				
-    				th.startElement(null, null, fileLine.getTag(), null); 
-    				th.characters(attributes.toCharArray(), 0, attributes.length());
-    				th.endElement(null, null, fileLine.getTag()); // The end element of the current line is the tag
-            	}
-            	th.endElement(null, null, fileName[0]); // End attribute of current file
-            	fileParser.next();
-            }
-            closeXml();
-        } 
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+	// Constructor that also handles file creation
+	protected TxtToXml(String fileName) {
+		xmlFile = new StreamResult(Paths.get("").toAbsolutePath().toString() + "\\Files\\Output\\" + fileName + ".xml");
+		convert();
+	}
 
-    public void openXml() throws ParserConfigurationException, TransformerConfigurationException, SAXException {
+	/*
+	 * Creates the structure of the XML file based on the txt files from the Input
+	 * folder
+	 */
+	private void convert() {
+		try {
+			openXml();
 
-        SAXTransformerFactory tf = (SAXTransformerFactory) SAXTransformerFactory.newInstance();
-        th = tf.newTransformerHandler();
+			FileParser fileParser = new FileParser();
+			int fileNumber = fileParser.getFileNumber();
 
-        // pretty XML output
-        Transformer serializer = th.getTransformer();
-        serializer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
-        serializer.setOutputProperty(OutputKeys.INDENT, "yes");
+			// For each txt file
+			for (int fileIterator = 0; fileIterator < fileNumber; fileIterator++) {
+				// Get the name of the file without ".txt"
+				String[] fileName = fileParser.getFileName().split(".txt");
+				// First attribute of current file is the name of the file
+				convertor.startElement(null, null, fileName[0], null);
 
-        th.setResult(out);
-        th.startDocument();
-        th.startElement(null, null, "files", null);
-    }
+				// Sum up all the attributes
+				for (line fileLine : fileParser.getAttributes()) {
+					String attributes = "";
+					for (String attribute : fileLine.getAttributes()) {
+						if (fileLine.getAttributes().get(fileLine.getAttributes().size() - 1) == attribute)
+							attributes += attribute;
+						else
+							// Add ',' only if the attribute is not the last one
+							attributes += (attribute + ", ");
+					}
+					// The start element of the current line is the tag
+					convertor.startElement(null, null, fileLine.getTag(), null);
+					// The characters of the current line are the attributes summed up above
+					convertor.characters(attributes.toCharArray(), 0, attributes.length());
+					// The end element of the current line is the tag
+					convertor.endElement(null, null, fileLine.getTag());
+				}
+				// End attribute of current file
+				convertor.endElement(null, null, fileName[0]);
 
-    public void closeXml() throws SAXException {
-        th.endElement(null, null, "files");
-        th.endDocument();
-    }
+				// Go the the next file
+				fileParser.next();
+			}
+			closeXml();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	// Creates the XML file base
+	private void openXml() throws ParserConfigurationException, TransformerConfigurationException, SAXException {
+
+		SAXTransformerFactory tf = (SAXTransformerFactory) SAXTransformerFactory.newInstance();
+		convertor = tf.newTransformerHandler();
+
+		// pretty XML output
+		Transformer serializer = convertor.getTransformer();
+		serializer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+		serializer.setOutputProperty(OutputKeys.INDENT, "yes");
+
+		convertor.setResult(xmlFile);
+		convertor.startDocument();
+		convertor.startElement(null, null, "files", null);
+	}
+
+	private void closeXml() throws SAXException {
+		convertor.endElement(null, null, "files");
+		convertor.endDocument();
+	}
 }
