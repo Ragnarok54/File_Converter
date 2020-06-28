@@ -13,7 +13,6 @@ import javax.xml.transform.stream.*;
 import javax.xml.transform.sax.*;
 
 public class TxtToXml {
-	//BufferedReader in;
     StreamResult out;
     TransformerHandler th;
 
@@ -23,19 +22,22 @@ public class TxtToXml {
 
     public void begin() {
         try {
-            out = new StreamResult("files.xml");
+            out = new StreamResult("files.xml"); // Output file
             openXml();
             
-            File dir = new File(Paths.get("").toAbsolutePath().toString() + "\\Files\\Input\\");
-            File[] directoryListing = dir.listFiles();
-            for(File child : directoryListing) {
-            	TxtManager txtManager = new TxtManager(child.getName());
-            	String[] fileName = child.getName().split(".txt");
-            	th.startElement(null, null, fileName[0], null);
-            	for(TxtReader x: txtManager.getContents())
+            File dir = new File(Paths.get("").toAbsolutePath().toString() + "\\Files\\Input\\"); // Directory path for the input files
+            File[] directoryListing = dir.listFiles(); // Get all the names of the files present in the given directory 
+            
+            for(File child : directoryListing) { // Parse all files present in the given directory
+            	TxtManager txtManager = new TxtManager(child.getName()); // Creates a text manager object for each file
+            	
+            	String[] fileName = child.getName().split(".txt"); // Get the name of the file without ".txt"
+            	th.startElement(null, null, fileName[0], null); // First attribute of current file id the name of the file
+            	
+            	for(TxtReader x: txtManager.getContents()) // Get the content of the current file and parse it
             		process(x);
             	
-            	th.endElement(null, null, fileName[0]);
+            	th.endElement(null, null, fileName[0]); // End attribute of current file
             }
 
             closeXml();
@@ -60,15 +62,15 @@ public class TxtToXml {
     }
 
     public void process(TxtReader s) throws SAXException {
-        th.startElement(null, null, s.getTag(), null);
+        th.startElement(null, null, s.getTag(), null); // The start element of the current line is the tag
         
-        for(String atribute : s.getAttributeList()) {
-        	if(atribute != s.getAttributeList().get(s.getAttributeList().size()-1))
-        		atribute += ',';
-        	th.characters(atribute.toCharArray(), 0, atribute.length());
+        for(String attribute : s.getAttributeList()) { // Add the attributes
+        	if(attribute != s.getAttributeList().get(s.getAttributeList().size()-1))
+        		attribute += ','; // Add ',' after each attribute except the last one
+        	th.characters(attribute.toCharArray(), 0, attribute.length());
         }
         
-        th.endElement(null, null, s.getTag());
+        th.endElement(null, null, s.getTag()); // The end element of the current line is the tag
     }
 
     public void closeXml() throws SAXException {
