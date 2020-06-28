@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?><files>
+    <masini>
+        <Ford>Focus,Mondeo,Ecosport</Ford>
+        <Skoda>Octavia,Fabia,Superb</Skoda>
+        <Renault>Megane,Clio,Zoe</Renault>
+    </masini>
+    <materii_CTI>
+        <Anul_I>Programarea Calculatoarelor,Proiectare Logica I,Algebra liniara si geometrie,Analiza Matematica,Informatica Aplicata,Fizica I,Engleza I,Proiectare Logica II,Electrotehnica,Metode Numerice,Proiectarea Algoritmilor,Matematici Speciale,Fizica II,Engleza II</Anul_I>
+        <Anul_II>Arhitectura Sistemelor de Calcul,Teoria Sistemelor,Dispozitive Electronice,Economie,Structuri de Date si Algoritmi,Programare Orientata pe Obiecte,Engleza III,Elemente de Grafica pe Calculator,Structura si Organizarea Calculatoarelor,Masuratori Electronice,Inteligenta Artificiala,Informatica Aplicata II,Grafica Asistata de Calculator,Engleza IV</Anul_II>
+        <Anul_III>Modelare si Simulare,Circuite Integrale Digitale,Sisteme de Operare,Sisteme Concurente si Distribuite,Protocoale de Comunicatii,Baze de Date,Proiectarea cu Microprocesoare,Inginerie Software,Retele de Calculatoare,Algoritmi Paraleli si Distribuiti,Proiectarea aplicatiilor Web,Limbaje formale si Automate</Anul_III>
+        <Anul_IV>Managementul Proiectelor,Proiectarea Translatoarelor,Securitatea Datelor,Comert Electronic,Administrarea Retelelor de Calculatoare,Invatare Automata,Circuite VSLI,Proiectarea Bazelor de Date</Anul_IV>
+    </materii_CTI>
+    <producatori>
+        <Telefoane>Apple,Samsung,Huawei,Xiaomi</Telefoane>
+        <Laptopuri>Asus,Apple,Dell,Hawlett-Packard,Lenovo</Laptopuri>
+        <Ceasuri>Rolex,Tag-Heuer,Fossil</Ceasuri>
+    </producatori>
+</files>

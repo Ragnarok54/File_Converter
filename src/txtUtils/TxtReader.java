@@ -32,7 +32,7 @@ public class TxtReader {
 		FileInputStream inputStream = null;
 		try {
 			inputStream = new FileInputStream(
-					Paths.get("").toAbsolutePath().toString() + "\\Files\\Input\\" + file + ".txt");
+					Paths.get("").toAbsolutePath().toString() + "\\Files\\Input\\" + file);
 			Scanner fileScanner = new Scanner(inputStream); // Scanner for the file to be read
 			Scanner lineScanner = null; // Used to only read one line and not read from the next one
 

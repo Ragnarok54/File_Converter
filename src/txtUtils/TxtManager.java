@@ -23,7 +23,10 @@ public class TxtManager {
 		int lineNumber = 0;
 		FileInputStream inputStream = null;
 		try {
-			inputStream = new FileInputStream("Files\\Input\\" + file + ".txt");
+			if(file.getName().endsWith(".txt"))
+				inputStream = new FileInputStream("Files\\Input\\" + file);
+			else
+				inputStream = new FileInputStream("Files\\Input\\" + file + ".txt");
 		} catch (FileNotFoundException e) {
 			System.out.println("Error while opening file " + e.getMessage());
 			e.printStackTrace();
@@ -47,6 +50,10 @@ public class TxtManager {
 			contents.add(fileParser);
 		}
 
+	}
+	
+	public ArrayList<TxtReader> getContents(){
+		return contents;
 	}
 
 	public void print() {
