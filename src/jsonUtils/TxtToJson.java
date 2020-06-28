@@ -11,15 +11,19 @@ import utils.FileParser;
 import utils.line;
 
 public class TxtToJson {
-	private JsonArray jsonFile = null; // holds the name of the file to be created
-	private String filePath = null;
+	private JsonArray jsonFile = null; // Holds the name of the file to be created
+	private String filePath = null; // Holds the path from program folder to the file to be created
 
-	public TxtToJson(String fileName) {
+	// Constructor that also handles file creation
+	protected TxtToJson(String fileName) {
 		filePath = Paths.get("").toAbsolutePath().toString() + "\\Files\\Output\\" + fileName + ".json";
 		createStructure();
 		write();
 	}
 
+	/* Creates the structure of the JSON file based
+	 * on the txt files from the Input folder
+	 */
 	private void createStructure() {
 		FileParser fileParser = new FileParser();
 		int fileNumber = fileParser.getFileNumber();
@@ -57,6 +61,7 @@ public class TxtToJson {
 		}
 	}
 
+	// Creates the JSON file base on the configuration in jsonFile
 	private void write() {
 		try {
 			FileWriter file = new FileWriter(filePath);
