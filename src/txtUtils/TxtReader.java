@@ -9,18 +9,22 @@ import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+import utils.line;
+
 /* This class reads a single line from a .txt file with the format
  * tag: attribute1, attribute2, attribute3
  * and saves them accordingly
  */
 public class TxtReader {
 	private File file = null; // holds the file that is being operated on
-	private String tag = null; // holds the tag for the line
-	private ArrayList<String> attributes; // list of attributes for the line
+	// private String tag = null; // holds the tag for the line
+	// private ArrayList<String> attributes; // list of attributes for the line
+	private line fileLine = new line();
 
 	public TxtReader(String path) {
 		this.file = new File(path);
-		attributes = new ArrayList<String>();
+		// attributes = new ArrayList<String>();
+
 	}
 
 	/*
@@ -32,7 +36,7 @@ public class TxtReader {
 		FileInputStream inputStream = null;
 		try {
 			inputStream = new FileInputStream(
-					Paths.get("").toAbsolutePath().toString() + "\\Files\\Input\\" + file + ".txt");
+					Paths.get("").toAbsolutePath().toString() + "\\Files\\Input\\" + file);
 			Scanner fileScanner = new Scanner(inputStream); // Scanner for the file to be read
 			Scanner lineScanner = null; // Used to only read one line and not read from the next one
 
@@ -42,14 +46,14 @@ public class TxtReader {
 				lineNumber--;
 			}
 			lineScanner.useDelimiter(": |, |,"); // Set delimiters for the txt files
-			tag = lineScanner.next(); // Retrieve the tag for the line
+			fileLine.setTag(lineScanner.next()); // Retrieve the tag for the line
 
 			// For each attribute, save it into the array
 			while (lineScanner.hasNext()) {
 				String currentAttribute = lineScanner.next();
-				attributes.add(currentAttribute);
+				fileLine.add(currentAttribute);
 			}
-			
+
 			lineScanner.close();
 			fileScanner.close();
 		} catch (FileNotFoundException e) {
@@ -76,11 +80,15 @@ public class TxtReader {
 
 	}
 
+	public line getLine() {
+		return this.fileLine;
+	}
+
 	public String getTag() {
-		return this.tag;
+		return fileLine.getTag();
 	}
 
 	public ArrayList<String> getAttributeList() {
-		return this.attributes;
+		return fileLine.getAttributes();
 	}
 }
