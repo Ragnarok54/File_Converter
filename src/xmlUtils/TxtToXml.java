@@ -1,11 +1,14 @@
 package xmlUtils;
 import java.io.*;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 import org.xml.sax.*;
 
 import txtUtils.TxtManager;
 import txtUtils.TxtReader;
+import utils.FileParser;
+import utils.line;
 
 import javax.xml.parsers.*;
 import javax.xml.transform.*;
@@ -15,33 +18,42 @@ import javax.xml.transform.sax.*;
 public class TxtToXml {
     StreamResult out;
     TransformerHandler th;
-
-    public static void main(String args[]) {
-        new TxtToXml().begin();
+    
+    public TxtToXml() {
+    	out =  new StreamResult(Paths.get("").toAbsolutePath().toString() + "\\Files\\Output\\" + "files.xml");
+    	convert();
     }
 
-    public void begin() {
+    public void convert() {
         try {
-            out = new StreamResult("files.xml"); // Output file
             openXml();
             
-            File dir = new File(Paths.get("").toAbsolutePath().toString() + "\\Files\\Input\\"); // Directory path for the input files
-            File[] directoryListing = dir.listFiles(); // Get all the names of the files present in the given directory 
+            FileParser fileParser = new FileParser();
+    		int fileNumber = fileParser.getFileNumber();
             
-            for(File child : directoryListing) { // Parse all files present in the given directory
-            	TxtManager txtManager = new TxtManager(child.getName()); // Creates a text manager object for each file
-            	
-            	String[] fileName = child.getName().split(".txt"); // Get the name of the file without ".txt"
+    		for (int fileIterator = 0; fileIterator < fileNumber; fileIterator++) { // For each txt file
+            	String[] fileName = fileParser.getFileName().split(".txt"); // Get the name of the file without ".txt"
             	th.startElement(null, null, fileName[0], null); // First attribute of current file id the name of the file
             	
-            	for(TxtReader x: txtManager.getContents()) // Get the content of the current file and parse it
-            		process(x);
-            	
+            	for (line fileLine : fileParser.getAttributes()) { // Sum up all the attributes
+    				String attributes = ""; 
+    				for (String attribute : fileLine.getAttributes()) {
+    					if (fileLine.getAttributes().get(fileLine.getAttributes().size() - 1) == attribute)
+    						attributes += attribute;
+    					else
+    						attributes += (attribute + ", "); // Add ',' only if the attribute is not the last one
+    				}
+    				
+    				th.startElement(null, null, fileLine.getTag(), null); 
+    				th.characters(attributes.toCharArray(), 0, attributes.length());
+    				th.endElement(null, null, fileLine.getTag()); // The end element of the current line is the tag
+            	}
             	th.endElement(null, null, fileName[0]); // End attribute of current file
+            	fileParser.next();
             }
-
             closeXml();
-        } catch (Exception e) {
+        } 
+        catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -59,18 +71,6 @@ public class TxtToXml {
         th.setResult(out);
         th.startDocument();
         th.startElement(null, null, "files", null);
-    }
-
-    public void process(TxtReader s) throws SAXException {
-        th.startElement(null, null, s.getTag(), null); // The start element of the current line is the tag
-        
-        for(String attribute : s.getAttributeList()) { // Add the attributes
-        	if(attribute != s.getAttributeList().get(s.getAttributeList().size()-1))
-        		attribute += ','; // Add ',' after each attribute except the last one
-        	th.characters(attribute.toCharArray(), 0, attribute.length());
-        }
-        
-        th.endElement(null, null, s.getTag()); // The end element of the current line is the tag
     }
 
     public void closeXml() throws SAXException {
