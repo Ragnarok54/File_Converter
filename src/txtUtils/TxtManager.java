@@ -50,6 +50,10 @@ public class TxtManager {
 		}
 
 	}
+	
+	public ArrayList<TxtReader> getContents(){
+		return contents;
+	}
 
 	public int getLines() {
 		return this.lineNumber;
