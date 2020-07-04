@@ -36,6 +36,7 @@ public class XmlManager {
 	
 	// Convert an XML file to a pdf
 	public void convertToPdf(String fileToBeRead) {
-		
+		convertToPdf = new XmlToPdf(fileToBeRead);
+		System.out.println("Converted the XML file into " + fileToBeRead + ".pdf");
 	}
 }
