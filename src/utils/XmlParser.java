@@ -36,42 +36,51 @@ public class XmlParser {
 			Scanner lineScanner = null; // Used to only read one line and not read from the next one
 			lineScanner = new Scanner(fileScanner.nextLine()); // skip first line with utc encoding
 
+			// Save the number of lines on each file
 			int linesPerFile = 0;
+			
 			while (fileScanner.hasNextLine()) {
 				String line = fileScanner.nextLine();
-				
-				line.replaceAll("\\s+","");
-				
-				if (line.charAt(1) == '/') { // we finished a file, move to the next one
+
+				line = line.trim();
+
+				if (line.charAt(1) == '/') {
+					 // Finished a file, move to the next one
 					fileTag.add(new Pair<String, Integer>(line.substring(2, line.length() - 1), linesPerFile));
-					linesPerFile = 0; // Reset the lines per file
+					// Reset the lines per file
+					linesPerFile = 0; 
 				} else {
 					if (line.indexOf('>') == line.lastIndexOf('>')) {
 						// this is a file start tag
 					} else {
-						System.out.println("Line is " + line);
 						linesPerFile++;
-						// We have to split the attributes and store them
-						line.replaceFirst("<", "");
-						line.replaceFirst(">", "<");
+						// Remove the first char
+						line = line.replaceFirst("<", "");
+
 						// Split the string by delimiters
-						String[] attributes = line.split(">|</|, |, ");
+						String[] attributes = line.split(">|</|, |,");
 
 						// Create new attribute list for the line
 						line attributeLine = new line();
-
+						
+						// The first item on the line is the tag
 						attributeLine.setTag(attributes[0]);
 
 						for (String atb : attributes) {
-							if (attributeLine.getTag() != atb)
+							// Only add the attributes, skip the tag
+							if (!atb.equals(attributeLine.getTag())) {
 								attributeLine.add(atb);
-							System.out.println("Added " + atb);
+							}
 						}
+						// Add the newly created line with the attributes
 						attributeList.add(attributeLine);
 					}
 				}
 			}
+			// The parsers add the file name with size 0 as last item in fileTag array
+			fileTag.remove(fileTag.size() - 1);
 
+			// Close the scanners
 			lineScanner.close();
 			fileScanner.close();
 		} catch (FileNotFoundException e) {
@@ -97,12 +106,12 @@ public class XmlParser {
 		}
 
 	}
-	
-	public ArrayList<Pair<String, Integer>> getFileName(){
+
+	public ArrayList<Pair<String, Integer>> getFileName() {
 		return fileTag;
 	}
-	
-	public ArrayList<line> getAttributeList(){
+
+	public ArrayList<line> getAttributeList() {
 		return attributeList;
 	}
 
