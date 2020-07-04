@@ -44,9 +44,7 @@ public class TxtToPdf {
 		}
 	}
 
-	// iText allows to add metadata to the PDF which can be viewed in your Adobe
-	// Reader
-	// under File -> Properties
+	// iText allows to add metadata to the PDF which can be viewed in your Adobe Reader under File -> Properties
 	private static void addMetaData(Document document) {
 		document.addTitle("Txt to PDF");
 		document.addSubject("Using iText");
