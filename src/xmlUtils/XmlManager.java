@@ -26,7 +26,8 @@ public class XmlManager {
 
 	// Converts an xml file to the respective amounts of txt files
 	public void convertToTxt(String fileToBeRead) {
-		// convertToTxt = new XmlToTxt(fileToBeRead);
+		 convertToTxt = new XmlToTxt(fileToBeRead);
+		 System.out.println("Converted the XML file into multiple txt files");
 	}
 	
 	// Convert an XML file to an excel spreadsheet
