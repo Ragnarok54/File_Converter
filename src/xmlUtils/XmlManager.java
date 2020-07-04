@@ -31,7 +31,8 @@ public class XmlManager {
 	
 	// Convert an XML file to an excel spreadsheet
 	public void convertToExcel(String fileToBeRead) {
-		
+		convertToExcel = new XmlToExcel(fileToBeRead);
+		System.out.println("Converted the XML file into " + fileToBeRead + ".xlsx");
 	}
 	
 	// Convert an XML file to a pdf
