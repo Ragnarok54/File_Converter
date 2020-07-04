@@ -86,15 +86,15 @@ public class XmlToPdf implements ConvertFromXml {
 
 	// Function that converts the content of the XML file into pdf table
 	private static void addContent(Document document) throws DocumentException {
-		XmlParser test = new XmlParser("files");
+		XmlParser xmlParser = new XmlParser("files");
 		int attributeIterator = 0;
 		int chapterNumber = 1;
 		
 		// For each node in xml file
-		for (Pair<String, Integer> a : test.getFileName()) {
+		for (Pair<String, Integer> node : xmlParser.getFileName()) {
 			// The anchor is the name of the current node
-			Anchor anchor = new Anchor(a.getKey(), catFont);
-			anchor.setName(a.getKey());
+			Anchor anchor = new Anchor(node.getKey(), catFont);
+			anchor.setName(node.getKey());
 
 			// The name of the chapter is the current node, second parameter is the number of the chapter
 			Chapter catPart = new Chapter(new Paragraph(anchor), chapterNumber);
@@ -105,15 +105,15 @@ public class XmlToPdf implements ConvertFromXml {
 			catPart.add(paragraph);
 
 			// Create a table, the number of columns is the number of tags 
-			PdfPTable table = new PdfPTable(a.getValue());
+			PdfPTable table = new PdfPTable(node.getValue());
 
 			// For each line in current node
-			for (int it = 0; it < a.getValue(); it++) {
+			for (int line = 0; line < node.getValue(); line++) {
 				// Create a column table which contains the content of a line in the XML
 				PdfPTable columnTable = new PdfPTable(1);
 
 				// Add a cell for the tag of the current line, color this cell yellow
-				PdfPCell tagCell = new PdfPCell(new Phrase(test.getAttributeList().get(it + attributeIterator).getTag()));
+				PdfPCell tagCell = new PdfPCell(new Phrase(xmlParser.getAttributeList().get(line + attributeIterator).getTag()));
 				tagCell.setHorizontalAlignment(Element.ALIGN_CENTER);
 				tagCell.setBackgroundColor(BaseColor.YELLOW);
 				
@@ -121,7 +121,7 @@ public class XmlToPdf implements ConvertFromXml {
 				columnTable.addCell(tagCell);
 				
 				// For each attribute in current line
-				for (String atb : test.getAttributeList().get(it + attributeIterator).getAttributes()) {
+				for (String atb : xmlParser.getAttributeList().get(line + attributeIterator).getAttributes()) {
 					// Create a new cell
 					PdfPCell cell = new PdfPCell(new Phrase(atb));
 					cell.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -141,7 +141,7 @@ public class XmlToPdf implements ConvertFromXml {
 			// Create a new page
 			document.newPage();
 			
-			attributeIterator += a.getValue();
+			attributeIterator += node.getValue();
 			chapterNumber++;
 		}
 	}
