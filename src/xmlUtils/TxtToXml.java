@@ -12,7 +12,7 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.xml.sax.SAXException;
 
-import utils.FileParser;
+import txtUtils.TxtParser;
 import utils.line;
 
 public class TxtToXml {
@@ -33,7 +33,7 @@ public class TxtToXml {
 		try {
 			openXml();
 
-			FileParser fileParser = new FileParser();
+			TxtParser fileParser = new TxtParser();
 			int fileNumber = fileParser.getFileNumber();
 
 			// For each txt file

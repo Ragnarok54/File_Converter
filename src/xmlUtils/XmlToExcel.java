@@ -17,7 +17,6 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import javafx.util.Pair;
-import utils.XmlParser;
 
 public class XmlToExcel implements ConvertFromXml {
 	String xmlFile = null; // Name of the XML file

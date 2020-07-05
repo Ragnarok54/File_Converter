@@ -15,7 +15,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import utils.FileParser;
+import txtUtils.TxtParser;
 import utils.line;
 
 public class TxtToExcel {
@@ -31,7 +31,7 @@ public class TxtToExcel {
 	 * on the text files from the Input folder
 	 */
 	private void convert() {
-		FileParser fileParser = new FileParser();
+		TxtParser fileParser = new TxtParser();
 		int fileNumber = fileParser.getFileNumber();
 
 		XSSFWorkbook workbook = new XSSFWorkbook();

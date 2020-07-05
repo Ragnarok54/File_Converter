@@ -7,7 +7,7 @@ import java.nio.file.Paths;
 import com.github.cliftonlabs.json_simple.JsonArray;
 import com.github.cliftonlabs.json_simple.JsonObject;
 
-import utils.FileParser;
+import txtUtils.TxtParser;
 import utils.line;
 
 public class TxtToJson {
@@ -25,7 +25,7 @@ public class TxtToJson {
 	 * on the txt files from the Input folder
 	 */
 	private void createStructure() {
-		FileParser fileParser = new FileParser();
+		TxtParser fileParser = new TxtParser();
 		int fileNumber = fileParser.getFileNumber();
 
 		jsonFile = new JsonArray();

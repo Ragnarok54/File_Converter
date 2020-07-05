@@ -17,7 +17,7 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
-import utils.FileParser;
+import txtUtils.TxtParser;
 import utils.line;
 
 public class TxtToPdf {
@@ -79,7 +79,7 @@ public class TxtToPdf {
 
 	// Function that converts the content of the txt files into pdf tables
 	private static void addContent(Document document) throws DocumentException {
-		FileParser fileParser = new FileParser();
+		TxtParser fileParser = new TxtParser();
 		int fileNumber = fileParser.getFileNumber();
 
 		// For each txt file

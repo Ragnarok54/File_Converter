@@ -19,7 +19,6 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import javafx.util.Pair;
-import utils.XmlParser;
 
 public class XmlToPdf implements ConvertFromXml {
 	private static String FILE; // Holds the name of the xml file

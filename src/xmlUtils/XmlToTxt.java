@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.nio.file.Paths;
 
 import javafx.util.Pair;
-import utils.XmlParser;
 
 public class XmlToTxt implements ConvertFromXml {
 	String xmlFile = null; // Name of the XML file

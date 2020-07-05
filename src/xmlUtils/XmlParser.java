@@ -1,4 +1,4 @@
-package utils;
+package xmlUtils;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -9,6 +9,7 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import javafx.util.Pair;
+import utils.line;
 
 public class XmlParser {
 	String AbsPath = null; // Absolute path to the folder location
