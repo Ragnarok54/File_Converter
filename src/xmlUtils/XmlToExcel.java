@@ -103,6 +103,7 @@ public class XmlToExcel implements ConvertFromXml {
 			FileOutputStream outputStream = new FileOutputStream(outputFile);
 			workbook.write(outputStream);
 			workbook.close();
+			outputStream.close();
 		} catch (FileNotFoundException e) {
 			log.error("File not found" + e.getMessage());
 			e.printStackTrace();

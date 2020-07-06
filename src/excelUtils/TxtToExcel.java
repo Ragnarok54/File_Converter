@@ -100,6 +100,7 @@ public class TxtToExcel {
 			FileOutputStream outputStream = new FileOutputStream(excelFile);
 			workbook.write(outputStream);
 			workbook.close();
+			outputStream.close();
 		} catch (FileNotFoundException e) {
 			log.error("File not found");
 			e.printStackTrace();
