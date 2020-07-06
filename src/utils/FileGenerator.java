@@ -11,6 +11,7 @@ import java.util.Random;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
@@ -51,7 +52,7 @@ public class FileGenerator {
 				// For each tag
 				for (int tag = 0; tag < tagsNo; tag++) {
 					// Write the tag name in the current input file
-					inputFile.write("item." + (file + 1) + "." + (tag + 1) + ": ");
+					inputFile.write("tag" + (file + 1) + "." + (tag + 1) + ": ");
 
 					// Generate the number of attributes for the current tag
 					int atbNo = rand.nextInt(upperBound) + 1;
@@ -59,9 +60,9 @@ public class FileGenerator {
 					for (int atb = 0; atb < atbNo; atb++) {
 						// Write the attribute name in the current input file
 						if (atb != atbNo - 1)
-							inputFile.write("item." + (file + 1) + "." + (tag + 1) + "." + (atb + 1) + ", ");
+							inputFile.write("atb" + (file + 1) + "." + (tag + 1) + "." + (atb + 1) + ", ");
 						else
-							inputFile.write("item." + (file + 1) + "." + (tag + 1) + "." + (atb + 1));
+							inputFile.write("atb" + (file + 1) + "." + (tag + 1) + "." + (atb + 1));
 
 					}
 
@@ -100,14 +101,14 @@ public class FileGenerator {
 			int nodesNo = rand.nextInt(upperBound) + 1;
 			for (int node = 0; node < nodesNo; node++) {
 				// Create the node and append it to the root
-				Element element = document.createElement("item." + (node + 1));
+				Element element = document.createElement("item" + (node + 1));
 				root.appendChild(element);
 
 				// Generate the number of tags for the current node
 				int tagsNo = rand.nextInt(upperBound) + 1;
 				for (int tag = 0; tag < tagsNo; tag++) {
 					// Create the tag
-					Element elem = document.createElement("item." + (node + 1) + "." + (tag + 1));
+					Element elem = document.createElement("tag" + (node + 1) + "." + (tag + 1));
 					// Generate the number of attributes for the current tag
 					int atbNo = rand.nextInt(upperBound) + 1;
 					// Create a string for the attributes
@@ -115,9 +116,9 @@ public class FileGenerator {
 					for (int atb = 0; atb < atbNo; atb++) {
 						// Add the attributes to the string
 						if (atb != atbNo - 1)
-							attribute += "item." + (node + 1) + "." + (tag + 1) + "." + (atb + 1) + ", ";
+							attribute += "atb" + (node + 1) + "." + (tag + 1) + "." + (atb + 1) + ", ";
 						else
-							attribute += "item." + (node + 1) + "." + (tag + 1) + "." + (atb + 1);
+							attribute += "atb" + (node + 1) + "." + (tag + 1) + "." + (atb + 1);
 					}
 					// Add the string of attributes to the tag
 					elem.appendChild(document.createTextNode(attribute));
@@ -130,6 +131,8 @@ public class FileGenerator {
 			// Transform the DOM Object to an XML File
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
+			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 			DOMSource domSource = new DOMSource(document);
 			StreamResult streamResult = new StreamResult(new File(xmlFilePath));
 

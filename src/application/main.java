@@ -170,7 +170,7 @@ public class main {
 				// Convert TXT to the following
 				String[] txtTo = { "XML", "Json", "Pdf", "Excel" };
 				// Convert XML to the following
-				String[] xmlTo = { "Text", "Pdf", "Json" };
+				String[] xmlTo = { "Text", "Pdf", "Excel" };
 				// Drop down list for convert to options
 				JComboBox<String> cbTo = new JComboBox<String>(txtTo);
 				cbTo.setBounds(250, 70, 90, 20);
@@ -307,6 +307,7 @@ public class main {
 		exitButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				initialFrame.setVisible(false);
+				System.exit(0);
 			}
 		});
 
