@@ -96,7 +96,7 @@ public class XmlToPdf implements ConvertFromXml {
 
 	// Function that converts the content of the XML file into pdf table
 	private static void addContent(Document document) throws DocumentException {
-		XmlParser xmlParser = new XmlParser("files");
+		XmlParser xmlParser = new XmlParser(FILE);
 		int attributeIterator = 0;
 		int chapterNumber = 1;
 		

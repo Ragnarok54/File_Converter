@@ -207,11 +207,11 @@ public class main {
 							}
 							
 							if(cbTo.getItemAt(cbTo.getSelectedIndex()) == "Pdf") {
-								xml.convertToPdf("XmlToPdf");
+								xml.convertToPdf("file");
 							}
 							
 							if(cbTo.getItemAt(cbTo.getSelectedIndex()) == "Excel") {
-								xml.convertToExcel("XmlToExcel");
+								xml.convertToExcel("file");
 							}
 							
 						}
@@ -219,10 +219,10 @@ public class main {
 				});
 				
 				// Exit button
-				JButton exit = new JButton("Exit");
-				exit.setBounds(120, 250, 150, 30);
+				JButton back = new JButton("Back");
+				back.setBounds(120, 250, 150, 30);
 				// Action for exit button
-				exit.addActionListener(new ActionListener() {
+				back.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						// Set the current frame as invisible
 						convertFrame.setVisible(false);
@@ -234,7 +234,7 @@ public class main {
 				// Add the components to the frame
 				convertFrame.add(fromText);
 				convertFrame.add(toText);
-				convertFrame.add(exit);
+				convertFrame.add(back);
 				convertFrame.add(convert);
 				convertFrame.add(cbTo);
 				convertFrame.add(cbFrom);
