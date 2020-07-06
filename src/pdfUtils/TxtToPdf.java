@@ -4,6 +4,8 @@ import java.io.FileOutputStream;
 import java.nio.file.Paths;
 import java.util.Date;
 
+import org.apache.log4j.Logger;
+
 import com.itextpdf.text.Anchor;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chapter;
@@ -17,13 +19,18 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import application.main;
 import txtUtils.TxtParser;
 import utils.line;
 
 public class TxtToPdf {
-	private static String FILE; // Holds the path from program folder to the file to be created
+	// Holds the path from program folder to the file to be created
+	private static String FILE;
 	private static Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 18, Font.BOLD);
 	private static Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
+
+	// Logger
+	static Logger log = Logger.getLogger(main.class.getName());
 
 	public TxtToPdf(String fileName) {
 		FILE = Paths.get("").toAbsolutePath().toString() + "\\Files\\Output\\" + fileName + ".pdf";
@@ -40,11 +47,13 @@ public class TxtToPdf {
 			addContent(document);
 			document.close();
 		} catch (Exception e) {
+			log.error("Error while processing file");
 			e.printStackTrace();
 		}
 	}
 
-	// iText allows to add metadata to the PDF which can be viewed in your Adobe Reader under File -> Properties
+	// iText allows to add metadata to the PDF which can be viewed 
+	// in Adobe Reader under File -> Properties
 	private static void addMetaData(Document document) {
 		document.addTitle("Txt to PDF");
 		document.addSubject("Using iText");
@@ -68,7 +77,7 @@ public class TxtToPdf {
 		addEmptyLine(preface, 3);
 		// Write something about the content of the PDF
 		preface.add(new Paragraph(
-				"This document contains three txt files converted to a single PDF.\nThe content of each file is on a new page of the PDF.",
+				"This document contains txt files converted to a single PDF.\nThe content of each file is on a new page of the PDF.",
 				smallBold));
 
 		// Add the created preface to the document
@@ -89,7 +98,8 @@ public class TxtToPdf {
 			Anchor anchor = new Anchor(fileName[0], catFont);
 			anchor.setName(fileName[0]);
 
-			// The name of the chapter is the current file name, second parameter is the number of the chapter
+			// The name of the chapter is the current file name, second parameter is the
+			// number of the chapter
 			Chapter catPart = new Chapter(new Paragraph(anchor), fileIterator + 1);
 
 			// Add empty line between the name of the chapter and the table
@@ -101,7 +111,8 @@ public class TxtToPdf {
 			PdfPTable table = new PdfPTable(fileParser.getAttributes().size());
 			// For each line in file
 			for (line fileLine : fileParser.getAttributes()) {
-				// Create a column table which contains the content of a line in the current file
+				// Create a column table which contains the content of a line in the current
+				// file
 				PdfPTable columnTable = new PdfPTable(1);
 
 				// Add a cell for the tag of the current line, color this cell yellow
@@ -116,7 +127,7 @@ public class TxtToPdf {
 					// Create a new cell
 					PdfPCell cell = new PdfPCell(new Phrase(attribute));
 					cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-					// Add the cell to the column table 
+					// Add the cell to the column table
 					columnTable.addCell(cell);
 				}
 
@@ -135,7 +146,7 @@ public class TxtToPdf {
 		document.newPage();
 	}
 
-	// Function to create an empty line 
+	// Function to create an empty line
 	private static void addEmptyLine(Paragraph paragraph, int number) {
 		for (int i = 0; i < number; i++) {
 			paragraph.add(new Paragraph(" "));

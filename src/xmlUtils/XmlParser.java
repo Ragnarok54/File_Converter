@@ -8,15 +8,25 @@ import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+import org.apache.log4j.Logger;
+
+import application.main;
 import javafx.util.Pair;
 import utils.line;
 
 public class XmlParser {
-	String AbsPath = null; // Absolute path to the folder location
-	String FilePath = null; // Relative path from the folder to the file that will be read
+	// Absolute path to the folder location
+	String AbsPath = null;
+	// Relative path from the folder to the file that will be read
+	String FilePath = null;
+	// List with each line (contains tag and list of attributes)
 	ArrayList<line> attributeList = null;
+	// List with each file name and how many lines it has
 	ArrayList<Pair<String, Integer>> fileTag = null;
+	// Logger
+	static Logger log = Logger.getLogger(main.class.getName());
 
+	// Constructor
 	public XmlParser(String fileName) {
 		AbsPath = Paths.get("").toAbsolutePath().toString();
 		if (fileName.contains(".xml"))
@@ -28,6 +38,7 @@ public class XmlParser {
 		parseFile();
 	}
 
+	// Parser utility
 	private void parseFile() {
 		// File inputFile = new File(AbsPath + FilePath);
 		FileInputStream inputStream = null;
@@ -40,6 +51,7 @@ public class XmlParser {
 			// Save the number of lines on each file
 			int linesPerFile = 0;
 			
+			// For each line in the XML
 			while (fileScanner.hasNextLine()) {
 				String line = fileScanner.nextLine();
 
@@ -85,16 +97,16 @@ public class XmlParser {
 			lineScanner.close();
 			fileScanner.close();
 		} catch (FileNotFoundException e) {
-
-			System.out.println("Error while opening file " + e.getMessage());
+			log.error("Error while opening file" + e.getMessage());
+			//System.out.println("Error while opening file " + e.getMessage());
 			e.printStackTrace();
 		} catch (NoSuchElementException e) {
-
-			System.out.println("Error no such element " + e.getMessage());
+			log.error("No such element" + e.getMessage());
+			//System.out.println("Error no such element " + e.getMessage());
 			e.printStackTrace();
 		} catch (Exception e) {
-
-			System.out.println("Error while processing file " + e.getMessage());
+			log.error("Error while processing file" + e.getMessage());
+			//System.out.println("Error while processing file " + e.getMessage());
 			e.printStackTrace();
 		}
 
@@ -102,6 +114,7 @@ public class XmlParser {
 			try {
 				inputStream.close();
 			} catch (IOException e) {
+				log.error("File is not open" + e.getMessage());
 				System.out.println("File is not open " + e.getMessage());
 			}
 		}

@@ -4,6 +4,9 @@ import java.io.File;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
+
+import application.main;
 import utils.line;
 
 /* Class that parses all txt files in the input directory
@@ -11,17 +14,25 @@ import utils.line;
  * iterator template
  */
 public class TxtParser {
-	private String AbsPath = null; // Absolute path to program folder
-	private String input = "\\Files\\Input"; // Path from program folder to Input files
-	private int fileNumber = 0; // Number of files in the input folder
-	private ArrayList<TxtManager> txtFiles = null; // Holds the contents of each file
-	private int fileIterator = 0; // Iterator in order to implement the iterator pattern
+	// Absolute path to program folder
+	private String AbsPath = null; 
+	// Path from program folder to Input files
+	private String input = "\\Files\\Input"; 
+	// Number of files in the input folder
+	private int fileNumber = 0; 
+	// Holds the contents of each file
+	private ArrayList<TxtManager> txtFiles = null; 
+	// Iterator in order to implement the iterator pattern
+	private int fileIterator = 0; 
+	// Logger
+	static Logger log = Logger.getLogger(main.class.getName());
 
 	// Constructor that also parses the input files
 	public TxtParser() {
 		AbsPath = Paths.get("").toAbsolutePath().toString();
 		txtFiles = new ArrayList<TxtManager>();
 		this.parse();
+		log.info("Parsed all txt files");
 	}
 
 	// Used for parsing

@@ -6,6 +6,9 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import org.apache.log4j.Logger;
+
+import application.main;
 import utils.line;
 
 /*
@@ -13,12 +16,17 @@ import utils.line;
  * all the tags and attributes
  */
 public class TxtManager {
-	private File file; // holds the path to the file that is being operated on
-	private int lineNumber = 0; // Number of lines a file has
-	private ArrayList<line> contents; // contains the tag and its attributes
+	// Holds the path to the file that is being operated on
+	private File file; 
+	// Number of lines a file has
+	private int lineNumber = 0; 
+	// Contains the tag and its attributes
+	private ArrayList<line> contents; 
+	// Logger
+	static Logger log = Logger.getLogger(main.class.getName());
 
 	// Constructor that handles the parsing of each line
-	public TxtManager(String file) {
+	protected TxtManager(String file) {
 		this.file = new File(file);
 		contents = new ArrayList<line>();
 		lineNumber = lines();
@@ -32,7 +40,8 @@ public class TxtManager {
 		try {
 			inputStream = new FileInputStream("Files\\Input\\" + file);
 		} catch (FileNotFoundException e) {
-			System.out.println("Error while opening file " + e.getMessage());
+			log.error("Error while opening file " + e.getMessage());
+			//System.out.println("Error while opening file " + e.getMessage());
 			e.printStackTrace();
 		}
 

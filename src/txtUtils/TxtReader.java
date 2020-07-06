@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+import org.apache.log4j.Logger;
+
+import application.main;
 import utils.line;
 
 /* This class reads a single line from a .txt file with the format
@@ -20,8 +23,10 @@ public class TxtReader {
 	// private String tag = null; // holds the tag for the line
 	// private ArrayList<String> attributes; // list of attributes for the line
 	private line fileLine = new line();
+	// Logger
+	static Logger log = Logger.getLogger(main.class.getName());
 
-	public TxtReader(String path) {
+	protected TxtReader(String path) {
 		this.file = new File(path);
 		// attributes = new ArrayList<String>();
 
@@ -32,11 +37,10 @@ public class TxtReader {
 	 * the line. It reads only one line which is given as a parameter. The lines are
 	 * zero-indexed
 	 */
-	public void readLine(int lineNumber) {
+	protected void readLine(int lineNumber) {
 		FileInputStream inputStream = null;
 		try {
-			inputStream = new FileInputStream(
-					Paths.get("").toAbsolutePath().toString() + "\\Files\\Input\\" + file);
+			inputStream = new FileInputStream(Paths.get("").toAbsolutePath().toString() + "\\Files\\Input\\" + file);
 			Scanner fileScanner = new Scanner(inputStream); // Scanner for the file to be read
 			Scanner lineScanner = null; // Used to only read one line and not read from the next one
 
@@ -57,16 +61,19 @@ public class TxtReader {
 			lineScanner.close();
 			fileScanner.close();
 		} catch (FileNotFoundException e) {
-
-			System.out.println("Error while opening file " + e.getMessage());
+			
+			log.error("Error while opening file " + e.getMessage());
+			//System.out.println("Error while opening file " + e.getMessage());
 			e.printStackTrace();
 		} catch (NoSuchElementException e) {
 
-			System.out.println("Error no such element " + e.getMessage());
+			log.error("No such element " + e.getMessage());
+			//System.out.println("Error no such element " + e.getMessage());
 			e.printStackTrace();
 		} catch (Exception e) {
 
-			System.out.println("Error while processing file " + e.getMessage());
+			log.error("Error while processing file " + e.getMessage());
+			//System.out.println("Error while processing file " + e.getMessage());
 			e.printStackTrace();
 		}
 
@@ -74,21 +81,22 @@ public class TxtReader {
 			try {
 				inputStream.close();
 			} catch (IOException e) {
-				System.out.println("File is not open " + e.getMessage());
+				log.error("Tried to close unexistent file");
+				//System.out.println("File is not open " + e.getMessage());
 			}
 		}
 
 	}
 
-	public line getLine() {
+	protected line getLine() {
 		return this.fileLine;
 	}
 
-	public String getTag() {
+	protected String getTag() {
 		return fileLine.getTag();
 	}
 
-	public ArrayList<String> getAttributeList() {
+	protected ArrayList<String> getAttributeList() {
 		return fileLine.getAttributes();
 	}
 }

@@ -1,0 +1,4 @@
+06/July 14:18:18,920 main INFO  - Log properties loaded
+06/July 14:18:18,920 main INFO  - Program started
+06/July 14:18:19,045 TxtParser INFO  - Parsed all txt files
+06/July 14:18:19,060 JsonManager INFO  - Converted all txt files to json

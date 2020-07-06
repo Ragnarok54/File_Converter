@@ -10,15 +10,22 @@ import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
 
+import org.apache.log4j.Logger;
 import org.xml.sax.SAXException;
 
+import application.main;
 import txtUtils.TxtParser;
 import utils.line;
 
 public class TxtToXml {
-	private StreamResult xmlFile; // Holds the path of the file to be created
-	private TransformerHandler convertor; // Handles the conversions from txt to xml
+	// Holds the path of the file to be created
+	private StreamResult xmlFile;
+	// Handles the conversions from txt to xml
+	private TransformerHandler convertor;
+	// Logger
+	static Logger log = Logger.getLogger(main.class.getName());
 
+	
 	// Constructor that also handles file creation
 	protected TxtToXml(String fileName) {
 		xmlFile = new StreamResult(Paths.get("").toAbsolutePath().toString() + "\\Files\\Output\\" + fileName + ".xml");
@@ -26,8 +33,8 @@ public class TxtToXml {
 	}
 
 	/*
-	 * Creates the structure of the XML file based on the txt files from the Input
-	 * folder
+	 * Creates the structure of the XML file based
+	 * on the txt files from the Input folder
 	 */
 	private void convert() {
 		try {
@@ -68,6 +75,7 @@ public class TxtToXml {
 			}
 			closeXml();
 		} catch (Exception e) {
+			log.error("Error while processing file");
 			e.printStackTrace();
 		}
 	}
@@ -78,7 +86,7 @@ public class TxtToXml {
 		SAXTransformerFactory tf = (SAXTransformerFactory) SAXTransformerFactory.newInstance();
 		convertor = tf.newTransformerHandler();
 
-		// pretty XML output
+		// Indent XML output
 		Transformer serializer = convertor.getTransformer();
 		serializer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
 		serializer.setOutputProperty(OutputKeys.INDENT, "yes");

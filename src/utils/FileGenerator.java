@@ -17,12 +17,17 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
+import application.main;
 
 public class FileGenerator {
 	// Save the absolute path to the application folder
 	String AbsPath = null;
+	// Logger
+	static Logger log = Logger.getLogger(main.class.getName());
 
 	// Constructor
 	public FileGenerator() {
@@ -63,11 +68,13 @@ public class FileGenerator {
 					// Add new line to the current input file
 					inputFile.write("\n");
 				}
-
+				
+				log.info("Generated txt files");
 				// Close the input file created
 				inputFile.close();
 			} catch (IOException e) {
-				System.out.println("An error occurred.");
+				log.error("Error while generating files");
+				//System.out.println("An error occurred.");
 				e.printStackTrace();
 			}
 		}
@@ -75,7 +82,7 @@ public class FileGenerator {
 
 	public void generateXmlFile(int upperBound) {
 		try {
-			// Path to the xml file to be created
+			// Path to the XML file to be created
 			String xmlFilePath = AbsPath + "\\Files\\Input\\file.xml";
 
 			DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
@@ -89,7 +96,7 @@ public class FileGenerator {
 			Element root = document.createElement("files");
 			document.appendChild(root);
 
-			// Generate the number of nodes of the xml file
+			// Generate the number of nodes of the XML file
 			int nodesNo = rand.nextInt(upperBound) + 1;
 			for (int node = 0; node < nodesNo; node++) {
 				// Create the node and append it to the root
@@ -119,16 +126,17 @@ public class FileGenerator {
 				}
 			}
 
-			// create the xml file
-			// transform the DOM Object to an XML File
+			// Create the XML file
+			// Transform the DOM Object to an XML File
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource domSource = new DOMSource(document);
 			StreamResult streamResult = new StreamResult(new File(xmlFilePath));
 
 			transformer.transform(domSource, streamResult);
-
-			System.out.println("Done creating XML File");
+			
+			log.info("Generated XML file");
+			//System.out.println("Done creating XML File");
 
 		} catch (ParserConfigurationException pce) {
 			pce.printStackTrace();
@@ -160,6 +168,7 @@ public class FileGenerator {
 				System.out.println("Cant delete a file due to open or error");
 			}
 		}
+		log.info("Cleared " + folder + " folder");
 	}
 
 	public void copyFiles() {
@@ -183,5 +192,6 @@ public class FileGenerator {
 				e.printStackTrace();
 			}
 		}
+		log.info("Copied cached files");
 	}
 }

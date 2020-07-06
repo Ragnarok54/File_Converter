@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -15,11 +16,15 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import application.main;
 import txtUtils.TxtParser;
 import utils.line;
 
 public class TxtToExcel {
-	private String excelFile; // Path to the output file
+	// Path to the output file
+	private String excelFile; 
+	// Logging file
+	static Logger log = Logger.getLogger(main.class.getName());
 
 	// Constructor that also handles file creation
 	public TxtToExcel(String fileName) {
@@ -96,8 +101,10 @@ public class TxtToExcel {
 			workbook.write(outputStream);
 			workbook.close();
 		} catch (FileNotFoundException e) {
+			log.error("File not found");
 			e.printStackTrace();
 		} catch (IOException e) {
+			log.error("I/O error");
 			e.printStackTrace();
 		}
 	}

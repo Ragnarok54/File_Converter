@@ -4,15 +4,22 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Paths;
 
+import org.apache.log4j.Logger;
+
 import com.github.cliftonlabs.json_simple.JsonArray;
 import com.github.cliftonlabs.json_simple.JsonObject;
 
+import application.main;
 import txtUtils.TxtParser;
 import utils.line;
 
 public class TxtToJson {
-	private JsonArray jsonFile = null; // Holds the name of the file to be created
-	private String filePath = null; // Holds the path from program folder to the file to be created
+	// Holds the name of the file to be created
+	private JsonArray jsonFile = null;
+	// Holds the path from program folder to the file to be created
+	private String filePath = null;
+	// Logger
+	static Logger log = Logger.getLogger(main.class.getName());
 
 	// Constructor that also handles file creation
 	protected TxtToJson(String fileName) {
@@ -69,6 +76,7 @@ public class TxtToJson {
 			file.flush();
 			file.close();
 		} catch (IOException e) {
+			log.error("I/O error when creating file");
 			e.printStackTrace();
 		}
 	}

@@ -5,6 +5,8 @@ import java.io.FileOutputStream;
 import java.nio.file.Paths;
 import java.util.Date;
 
+import org.apache.log4j.Logger;
+
 import com.itextpdf.text.Anchor;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chapter;
@@ -18,15 +20,23 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import application.main;
 import javafx.util.Pair;
 
 public class XmlToPdf implements ConvertFromXml {
-	private static String FILE; // Holds the name of the xml file
+	// Holds the name of the xml file
+	private static String FILE;
+	// Holds the absolute path to the application folder
+	private String AbsPath = null;
 	private static Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 18, Font.BOLD);
 	private static Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
+	// Logger
+	static Logger log = Logger.getLogger(main.class.getName());
 
+	
 	public XmlToPdf(String fileName) {
 		FILE = fileName;
+		AbsPath = Paths.get("").toAbsolutePath().toString();
 		convert();
 	}
 
@@ -36,10 +46,10 @@ public class XmlToPdf implements ConvertFromXml {
 		try {
 			Document document = new Document();
 			// The name of the output file is the name of the xml file
-			File outputFile = new File(Paths.get("").toAbsolutePath().toString() + "\\Files\\Output\\" + FILE + ".pdf");
+			File outputFile = new File(AbsPath + "\\Files\\Output\\" + FILE + ".pdf");
 			// If the name already exists in the Output folder, add (1) to the name
 			if(outputFile.exists())
-				outputFile = new File(Paths.get("").toAbsolutePath().toString() + "\\Files\\Output\\" + FILE + "(1).pdf");
+				outputFile = new File(AbsPath + "\\Files\\Output\\" + FILE + "(1).pdf");
 			PdfWriter.getInstance(document, new FileOutputStream(outputFile));
 			document.open();
 			addMetaData(document);
@@ -47,6 +57,7 @@ public class XmlToPdf implements ConvertFromXml {
 			addContent(document);
 			document.close();
 		} catch (Exception e) {
+			log.error("Error while processing file");
 			e.printStackTrace();
 		}
 

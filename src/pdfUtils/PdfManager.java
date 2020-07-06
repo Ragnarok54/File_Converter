@@ -1,5 +1,9 @@
 package pdfUtils;
 
+import org.apache.log4j.Logger;
+
+import application.main;
+
 /*
  * User Interface class to handle text to PDF conversion and
  * also supports the addition of PDF to text and PDF to other 
@@ -9,6 +13,10 @@ public class PdfManager {
 	TxtToPdf convertToPdf = null;
 	PdfToTxt convertToTxt = null;
 
+	// Logger
+	static Logger log = Logger.getLogger(main.class.getName());
+
+	// Constructor
 	public PdfManager() {
 
 	}
@@ -18,7 +26,8 @@ public class PdfManager {
 		// Use the TxtToPdf class to handle the conversion and file creation
 		convertToPdf = new TxtToPdf(fileToBeCreated);
 
-		System.out.println("Converted all txt files to " + fileToBeCreated + ".pdf");
+		log.info("Converted all txt files to pdf");
+		//System.out.println("Converted all txt files to " + fileToBeCreated + ".pdf");
 	}
 
 	public void convertToTxt(String fileToBeRead) {

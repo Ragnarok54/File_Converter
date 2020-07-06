@@ -1,5 +1,9 @@
 package excelUtils;
 
+import org.apache.log4j.Logger;
+
+import application.main;
+
 /*
  * User Interface class to handle text to Excel conversion and
  * also supports the addition of Excel to text and Excel to other 
@@ -8,7 +12,9 @@ package excelUtils;
 public class ExcelManager {
 	TxtToExcel convertToExcel = null;
 	ExcelToTxt convertToTxt = null;
-
+	// Logger
+	static Logger log = Logger.getLogger(main.class.getName());
+	
 	public ExcelManager() {
 
 	}
@@ -17,8 +23,9 @@ public class ExcelManager {
 	public void convertToExcel(String fileToBeCreated) {
 		// Use the TxtToExcel class to handle the conversion and file creation
 		convertToExcel = new TxtToExcel(fileToBeCreated);
-
-		System.out.println("Converted all txt files to " + fileToBeCreated + ".xlsx");
+		
+		log.info("Converted all txt files to excel");
+		//System.out.println("Converted all txt files to " + fileToBeCreated + ".xlsx");
 	}
 
 	public void convertToTxt(String fileToBeRead) {
