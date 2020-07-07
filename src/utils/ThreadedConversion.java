@@ -1,6 +1,9 @@
 package utils;
 
+import java.awt.Color;
+
 import javax.swing.SwingWorker;
+import javax.swing.UIManager;
 
 import org.apache.log4j.Logger;
 
@@ -55,8 +58,6 @@ public class ThreadedConversion extends SwingWorker<Void, Void>{
 			// Convert TXT to PDF
 			if (convertTo == "Pdf") {
 				pdfManager.convertToPdf("TxtToPdf");
-				System.out.println(convertFrom + convertTo);
-
 			}
 
 			// Convert TXT to EXCEL
