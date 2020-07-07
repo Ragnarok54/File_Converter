@@ -2,6 +2,7 @@ package application;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -11,22 +12,29 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
+import javax.swing.JProgressBar;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
-import excelUtils.ExcelManager;
-import jsonUtils.JsonManager;
-import pdfUtils.PdfManager;
 import utils.FileGenerator;
-import xmlUtils.XmlManager;
+import utils.ThreadedConversion;
 
 public class main {
-
+	// Number of tests generated
+	static int numberOfTests = 50;
+	// Logger
 	static Logger log = Logger.getLogger(main.class.getName());
-
+	
+	static JProgressBar progressBar = new JProgressBar(0, 100);
+	
+    public void propertyChange(PropertyChangeEvent evt) {
+        if ("progress" == evt.getPropertyName()) {
+            int progress = (Integer) evt.getNewValue();
+            progressBar.setValue(progress);
+        } 
+    }
+    
 	protected static void initLogger() {
 		Properties props = new Properties();
 		try {
@@ -101,9 +109,9 @@ public class main {
 						// clear the Input and the Output folders
 						generator.clearFolders();
 						// Generate ten or less text files
-						generator.generateTxtFiles(10);
+						generator.generateTxtFiles(numberOfTests);
 						// Generate an XML file with ten or less nodes
-						generator.generateXmlFile(10);
+						generator.generateXmlFile(numberOfTests);
 					}
 				});
 
@@ -144,10 +152,6 @@ public class main {
 			public void actionPerformed(ActionEvent e) {
 				// Set the initial frame as invisible
 				initialFrame.setVisible(false);
-				XmlManager xmlManager = new XmlManager();
-				JsonManager jsonManager = new JsonManager();
-				ExcelManager excelManager = new ExcelManager();
-				PdfManager pdfManager = new PdfManager();
 
 				// Create a new frame for convert actions
 				JFrame convertFrame = new JFrame("Convert");
@@ -177,7 +181,7 @@ public class main {
 
 				// Label for conversion completed
 				JLabel conversionText = new JLabel("Conversion completed");
-				conversionText.setBounds(100, 300, 200, 30);
+				conversionText.setBounds(129, 300, 200, 30);
 				// Only set it visible after a conversion
 				conversionText.setVisible(false);
 				
@@ -215,63 +219,27 @@ public class main {
 				JButton convert = new JButton("Convert");
 				convert.setBounds(120, 200, 150, 30);
 				
+				progressBar.setStringPainted(true);
+				progressBar.setBounds(120, 160, 150, 15);
+				progressBar.setStringPainted(true);
+
 				// Actions for convert button
 				convert.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						if (cbFrom.getItemAt(cbFrom.getSelectedIndex()) == "Text") {
-
-							if (cbTo.getItemAt(cbTo.getSelectedIndex()) == "Text") {
-								JTextField text = new JTextField("Can not convert from Text to Text!");
-								text.setBounds(100, 300, 200, 30);
-								convertFrame.add(text);
-							}
-
-							if (cbTo.getItemAt(cbTo.getSelectedIndex()) == "XML") {
-								xmlManager.convertToXml("TxtToXml");
-							}
-
-							if (cbTo.getItemAt(cbTo.getSelectedIndex()) == "Json") {
-								jsonManager.convertToJson("TxtToJson");
-							}
-
-							if (cbTo.getItemAt(cbTo.getSelectedIndex()) == "Pdf") {
-								pdfManager.convertToPdf("TxtToPdf");
-							}
-
-							if (cbTo.getItemAt(cbTo.getSelectedIndex()) == "Excel") {
-								excelManager.convertToExcel("TxtToExcel");
-							}
-						}
-
-						if (cbFrom.getItemAt(cbFrom.getSelectedIndex()) == "XML") {
-							if (cbTo.getItemAt(cbTo.getSelectedIndex()) == "Text") {
-								xmlManager.convertToTxt("file");
-							}
-
-							if (cbTo.getItemAt(cbTo.getSelectedIndex()) == "XML") {
-								JTextField text = new JTextField("Can not convert from XML to XML!");
-								text.setBounds(100, 300, 200, 30);
-								convertFrame.add(text);
-							}
-
-							if (cbTo.getItemAt(cbTo.getSelectedIndex()) == "Json") {
-								JTextField text = new JTextField("Can not convert from XML to Json!");
-								text.setBounds(100, 300, 200, 30);
-								convertFrame.add(text);
-							}
-
-							if (cbTo.getItemAt(cbTo.getSelectedIndex()) == "Pdf") {
-								xmlManager.convertToPdf("file");
-							}
-
-							if (cbTo.getItemAt(cbTo.getSelectedIndex()) == "Excel") {
-								xmlManager.convertToExcel("file");
-							}
-
+						convertFrame.add(progressBar);
+						System.out.print("here");
+						ThreadedConversion thread = new ThreadedConversion(cbFrom.getItemAt(cbFrom.getSelectedIndex()), cbTo.getItemAt(cbTo.getSelectedIndex()));
+						// Start new thread for conversion
+						try {
+							//thread.addPropertyChangeListener(this);
+							thread.execute();
+						} catch (Exception e1) {
+							log.error("Error while starting conversion Thread");
+							e1.printStackTrace();
 						}
 						// Conversion completed, set text visible
 						conversionText.setVisible(true);
-						
+						//convertFrame.remove(progressBar);
 					}
 				});
 
@@ -307,6 +275,7 @@ public class main {
 		exitButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				initialFrame.setVisible(false);
+				log.info("Program exit");
 				System.exit(0);
 			}
 		});
@@ -320,6 +289,8 @@ public class main {
 		initialFrame.setSize(400, 400);
 		initialFrame.setLayout(null);
 		initialFrame.setVisible(true);
+		// Set the program to exit on frame close
+		initialFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 }
