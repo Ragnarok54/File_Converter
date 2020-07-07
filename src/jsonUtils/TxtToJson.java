@@ -18,6 +18,8 @@ public class TxtToJson {
 	private JsonArray jsonFile = null;
 	// Holds the path from program folder to the file to be created
 	private String filePath = null;
+	// Reference the main class to update the progress of the conversion
+	private static main main = new main();
 	// Logger
 	static Logger log = Logger.getLogger(main.class.getName());
 
@@ -41,6 +43,9 @@ public class TxtToJson {
 		for (int fileIterator = 0; fileIterator < fileNumber; fileIterator++) {
 			// Create a contents tag
 			JsonObject contents = new JsonObject();
+			
+			// Set the progress bar value
+			main.setProgress((int) ((float)(fileIterator + 1) / (float)(fileNumber + 1) * 100));
 			
 			// Create an attribute holder
 			JsonObject atb = new JsonObject();

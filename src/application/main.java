@@ -2,7 +2,6 @@ package application;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -22,19 +21,26 @@ import utils.ThreadedConversion;
 
 public class main {
 	// Number of tests generated
-	static int numberOfTests = 50;
+	static int numberOfTests = 150;
 	// Logger
 	static Logger log = Logger.getLogger(main.class.getName());
 	
+	// Progress bar for the convert frame
 	static JProgressBar progressBar = new JProgressBar(0, 100);
+	// Convert button for the convert frame
+	static JButton convert;
 	
-    public void propertyChange(PropertyChangeEvent evt) {
-        if ("progress" == evt.getPropertyName()) {
-            int progress = (Integer) evt.getNewValue();
-            progressBar.setValue(progress);
-        } 
-    }
-    
+	// Function to modify the status of a button
+	public void convertButtonStatus(boolean status) {
+		convert.setEnabled(status);
+	}
+	
+	// Function to update the progress bar
+	public void setProgress(int value) {
+		progressBar.setValue(value);
+	}
+
+	// Load the logger properties
 	protected static void initLogger() {
 		Properties props = new Properties();
 		try {
@@ -50,6 +56,8 @@ public class main {
 		log.info("Log properties loaded");
 	}
 
+	
+	// Main function of the application
 	public static void main(String[] args) {
 		initLogger();
 		log.info("Program started");
@@ -154,7 +162,7 @@ public class main {
 				initialFrame.setVisible(false);
 
 				// Create a new frame for convert actions
-				JFrame convertFrame = new JFrame("Convert");
+				JFrame convertFrame = new JFrame("Convertor");
 
 				// Convert from text label
 				JLabel fromText = new JLabel("Convert from:");
@@ -184,11 +192,10 @@ public class main {
 				conversionText.setBounds(129, 300, 200, 30);
 				// Only set it visible after a conversion
 				conversionText.setVisible(false);
-				
+
 				/*
-				 * Action listener for the second combo box, so 
-				 * we change its contents based on the contents
-				 * of the first combo box
+				 * Action listener for the second combo box, so we change its contents based on
+				 * the contents of the first combo box
 				 */
 				cbFrom.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent event) {
@@ -202,6 +209,9 @@ public class main {
 							}
 							// Hide "Conversion completed" text
 							conversionText.setVisible(false);
+							// Hide progress bar on new selection
+							progressBar.setVisible(false);
+
 						} else {
 							// If TEXT is selected
 							// Make sure the list is empty
@@ -211,14 +221,16 @@ public class main {
 								cbTo.addItem(file);
 							// Hide "Conversion completed" text
 							conversionText.setVisible(false);
+							// Hide progress bar on new selection
+							progressBar.setVisible(false);
 						}
 					}
 				});
 
 				// Convert button
-				JButton convert = new JButton("Convert");
+				convert = new JButton("Convert");
 				convert.setBounds(120, 200, 150, 30);
-				
+
 				progressBar.setStringPainted(true);
 				progressBar.setBounds(120, 160, 150, 15);
 				progressBar.setStringPainted(true);
@@ -227,11 +239,12 @@ public class main {
 				convert.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						convertFrame.add(progressBar);
-						System.out.print("here");
-						ThreadedConversion thread = new ThreadedConversion(cbFrom.getItemAt(cbFrom.getSelectedIndex()), cbTo.getItemAt(cbTo.getSelectedIndex()));
+						progressBar.setVisible(true);
+						ThreadedConversion thread = new ThreadedConversion(cbFrom.getItemAt(cbFrom.getSelectedIndex()),
+								cbTo.getItemAt(cbTo.getSelectedIndex()));
 						// Start new thread for conversion
 						try {
-							//thread.addPropertyChangeListener(this);
+							// thread.addPropertyChangeListener(this);
 							thread.execute();
 						} catch (Exception e1) {
 							log.error("Error while starting conversion Thread");
@@ -239,7 +252,7 @@ public class main {
 						}
 						// Conversion completed, set text visible
 						conversionText.setVisible(true);
-						//convertFrame.remove(progressBar);
+						// convertFrame.remove(progressBar);
 					}
 				});
 

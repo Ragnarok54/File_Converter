@@ -22,6 +22,8 @@ public class TxtToXml {
 	private StreamResult xmlFile;
 	// Handles the conversions from txt to xml
 	private TransformerHandler convertor;
+	// Reference the main class to update the progress of the conversion
+	private static main main = new main();
 	// Logger
 	static Logger log = Logger.getLogger(main.class.getName());
 
@@ -45,8 +47,12 @@ public class TxtToXml {
 
 			// For each txt file
 			for (int fileIterator = 0; fileIterator < fileNumber; fileIterator++) {
+				// Set the progress bar value
+				main.setProgress((int) ((float)(fileIterator + 1) / (float)(fileNumber + 1) * 100));
+				
 				// Get the name of the file without ".txt"
 				String[] fileName = fileParser.getFileName().split(".txt");
+				
 				// First attribute of current file is the name of the file
 				convertor.startElement(null, null, fileName[0], null);
 

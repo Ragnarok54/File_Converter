@@ -28,7 +28,9 @@ public class TxtToPdf {
 	private static String FILE;
 	private static Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 18, Font.BOLD);
 	private static Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
-
+	// Reference the main class to update the progress of the conversion
+	private static main main = new main();
+	
 	// Logger
 	static Logger log = Logger.getLogger(main.class.getName());
 
@@ -93,6 +95,9 @@ public class TxtToPdf {
 
 		// For each txt file
 		for (int fileIterator = 0; fileIterator < fileNumber; fileIterator++) {
+			// Set the progress bar value
+			main.setProgress((int) ((float)(fileIterator + 1) / (float)(fileNumber + 1) * 100));
+			
 			// Get the name of the current file without ".txt"
 			String[] fileName = fileParser.getFileName().split(".txt");
 			Anchor anchor = new Anchor(fileName[0], catFont);

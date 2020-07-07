@@ -30,6 +30,8 @@ public class XmlToPdf implements ConvertFromXml {
 	private String AbsPath = null;
 	private static Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 18, Font.BOLD);
 	private static Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
+	// Reference the main class to update the progress of the conversion
+	private static main main = new main();
 	// Logger
 	static Logger log = Logger.getLogger(main.class.getName());
 
@@ -102,6 +104,9 @@ public class XmlToPdf implements ConvertFromXml {
 		
 		// For each node in xml file
 		for (Pair<String, Integer> node : xmlParser.getFileName()) {
+			// Set the progress bar value
+			main.setProgress((int) ((float)(xmlParser.getFileName().indexOf(node) + 1) / (float)(xmlParser.getFileName().size() + 1) * 100));
+						
 			// The anchor is the name of the current node
 			Anchor anchor = new Anchor(node.getKey(), catFont);
 			anchor.setName(node.getKey());

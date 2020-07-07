@@ -1,0 +1,3 @@
+Telefoane: Apple, Samsung, Huawei, Xiaomi
+Laptopuri: Asus, Apple, Dell, Hawlett-Packard, Lenovo
+Ceasuri: Rolex, Tag-Heuer, Fossil

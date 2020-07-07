@@ -23,6 +23,8 @@ import javafx.util.Pair;
 public class XmlToExcel implements ConvertFromXml {
 	// Name of the XML file
 	String xmlFile = null; 
+	// Reference the main class to update the progress of the conversion
+	private static main main = new main();
 	// Logger
 	static Logger log = Logger.getLogger(main.class.getName());
 
@@ -43,7 +45,10 @@ public class XmlToExcel implements ConvertFromXml {
 		for (Pair<String, Integer> node : xmlParser.getFileName()) {
 			// Create a new sheet corresponding to the current node
 			XSSFSheet sheet = workbook.createSheet(node.getKey());
-
+			
+			// Set the progress bar value
+			main.setProgress((int) ((float)(xmlParser.getFileName().indexOf(node) + 1) / (float)(xmlParser.getFileName().size() + 1) * 100));
+			
 			// Matrix of all attributes in a node
 			ArrayList<ArrayList<String>> dataTypes = new ArrayList<ArrayList<String>>();
 			// List of attributes in a line

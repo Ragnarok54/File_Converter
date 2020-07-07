@@ -23,6 +23,8 @@ import utils.line;
 public class TxtToExcel {
 	// Path to the output file
 	private String excelFile; 
+	// Reference the main class to update the progress of the conversion
+	private static main main = new main();
 	// Logging file
 	static Logger log = Logger.getLogger(main.class.getName());
 
@@ -43,8 +45,12 @@ public class TxtToExcel {
 
 		// For each text file
 		for (int fileIterator = 0; fileIterator < fileNumber; fileIterator++) {
+			// Set the progress bar value
+			main.setProgress((int) ((float)(fileIterator + 1) / (float)(fileNumber + 1) * 100));
+			
 			// Get the name of the current file without ".txt"
 			String[] fileName = fileParser.getFileName().split(".txt");
+			
 			// Create a new sheet corresponding to the current file
 			XSSFSheet sheet = workbook.createSheet(fileName[0]);
 

@@ -14,6 +14,8 @@ public class XmlToTxt implements ConvertFromXml {
 	String xmlFile = null;
 	// Holds the absolute path to the application folder
 	String AbsPath = null;
+	// Reference the main class to update the progress of the conversion
+	private static main main = new main();
 	// Logger
 	static Logger log = Logger.getLogger(main.class.getName());
 
@@ -26,14 +28,17 @@ public class XmlToTxt implements ConvertFromXml {
 
 	@Override
 	// Converts the xml file into multiple txt files
-	// The number of txt files is the number of nodes in the xml file
+	// The number of txt files is the number of nodes in the XML file
 	public void convert() {
 		XmlParser xmlParser = new XmlParser(xmlFile);
 
 		int attributeIterator = 0;
-		// For each node in the xml file
+		// For each node in the XML file
 		for (Pair<String, Integer> node : xmlParser.getFileName()) {
 			try {
+				// Set the progress bar value
+				main.setProgress((int) ((float)(xmlParser.getFileName().indexOf(node) + 1) / (float)(xmlParser.getFileName().size() + 1) * 100));
+				
 				// Create a txt file whose name is the current node name
 				FileWriter outputFile = new FileWriter(AbsPath + "\\Files\\Output\\" + node.getKey() + ".txt");
 

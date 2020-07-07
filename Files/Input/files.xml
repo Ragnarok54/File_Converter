@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?><files>
+    <masini>
+        <Ford>Focus, Mondeo, Ecosport</Ford>
+        <Skoda>Octavia, Fabia, Superb</Skoda>
+        <Renault>Megane, Clio, Zoe</Renault>
+    </masini>
+    <materii_CTI>
+        <Anul_I>Programarea Calculatoarelor, Proiectare Logica I</Anul_I>
+        <Anul_II>Arhitectura Sistemelor de Calcul, Teoria Sistemelor</Anul_II>
+        <Anul_III>Modelare si Simulare, Circuite Integrale Digitale</Anul_III>
+        <Anul_IV>Managementul Proiectelor, Proiectarea Translatoarelor</Anul_IV>
+    </materii_CTI>
+    <producatori>
+        <Telefoane>Apple, Samsung, Huawei, Xiaomi</Telefoane>
+        <Laptopuri>Asus, Apple, Dell, Hawlett-Packard, Lenovo</Laptopuri>
+        <Ceasuri>Rolex, Tag-Heuer, Fossil</Ceasuri>
+    </producatori>
+</files>
