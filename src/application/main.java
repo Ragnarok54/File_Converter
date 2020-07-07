@@ -74,17 +74,17 @@ public class main {
 		// mainText.set
 		// Create a button for generating files
 		JButton generateButton = new JButton("Generator");
-		generateButton.setBounds(140, 130, 95, 30);
+		generateButton.setBounds(115, 130, 150, 30);
 		generateButton.setBackground(new Color(207, 200, 246));
 
 		// Create a button for converting
 		JButton convertButton = new JButton("Convertor");
-		convertButton.setBounds(140, 180, 95, 30);
+		convertButton.setBounds(115, 180, 150, 30);
 		convertButton.setBackground(new Color(207, 200, 246));
 
 		// Create a exit button
 		JButton exitButton = new JButton("Exit");
-		exitButton.setBounds(140, 230, 95, 30);
+		exitButton.setBounds(115, 230, 150, 30);
 		exitButton.setBackground(new Color(252, 215, 217));
 
 		// Action for the generate button
@@ -235,7 +235,7 @@ public class main {
 				progressBar.setStringPainted(true);
 				progressBar.setBounds(120, 160, 150, 15);
 				progressBar.setStringPainted(true);
-				progressBar.setForeground(new Color(204, 255, 204));
+				progressBar.setForeground(new Color(142, 228, 176));
 
 				// Actions for convert button
 				convert.addActionListener(new ActionListener() {
