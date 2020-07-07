@@ -29,17 +29,21 @@ public class FileGenerator {
 	String AbsPath = null;
 	// Logger
 	static Logger log = Logger.getLogger(main.class.getName());
+	// The upper bound for the random variables
+	int upperBound;
+	// The number of txt files and the number of nodes in the xml file
+	int filesNo;
+	// Used for generating random numbers
+	Random rand = new Random();
 
 	// Constructor
-	public FileGenerator() {
+	public FileGenerator(int numberFiles) {
 		AbsPath = Paths.get("").toAbsolutePath().toString();
+		upperBound = numberFiles;
+		filesNo = rand.nextInt(upperBound);
 	}
 
-	public void generateTxtFiles(int upperBound) {
-		Random rand = new Random();
-
-		// Generate the number of txt files
-		int filesNo = rand.nextInt(upperBound) + 1;
+	public void generateTxtFiles() {
 		// For each file
 		for (int file = 0; file < filesNo; file++) {
 			try {
@@ -81,7 +85,7 @@ public class FileGenerator {
 		}
 	}
 
-	public void generateXmlFile(int upperBound) {
+	public void generateXmlFile() {
 		try {
 			// Path to the XML file to be created
 			String xmlFilePath = AbsPath + "\\Files\\Input\\file.xml";
@@ -97,9 +101,7 @@ public class FileGenerator {
 			Element root = document.createElement("files");
 			document.appendChild(root);
 
-			// Generate the number of nodes of the XML file
-			int nodesNo = rand.nextInt(upperBound) + 1;
-			for (int node = 0; node < nodesNo; node++) {
+			for (int node = 0; node < filesNo; node++) {
 				// Create the node and append it to the root
 				Element element = document.createElement("item" + (node + 1));
 				root.appendChild(element);

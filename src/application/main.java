@@ -89,7 +89,7 @@ public class main {
 				// Set the initial frame as invisible
 				initialFrame.setVisible(false);
 
-				FileGenerator generator = new FileGenerator();
+				FileGenerator generator = new FileGenerator(numberOfTests);
 
 				// Create a new frame
 				JFrame generateFrame = new JFrame("Generate Input Files");
@@ -117,9 +117,9 @@ public class main {
 						// clear the Input and the Output folders
 						generator.clearFolders();
 						// Generate ten or less text files
-						generator.generateTxtFiles(numberOfTests);
+						generator.generateTxtFiles();
 						// Generate an XML file with ten or less nodes
-						generator.generateXmlFile(numberOfTests);
+						generator.generateXmlFile();
 					}
 				});
 
