@@ -1,5 +1,6 @@
 package application;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileInputStream;
@@ -74,14 +75,17 @@ public class main {
 		// Create a button for generating files
 		JButton generateButton = new JButton("Generator");
 		generateButton.setBounds(140, 130, 95, 30);
+		generateButton.setBackground(new Color(207, 200, 246));
 
 		// Create a button for converting
 		JButton convertButton = new JButton("Convertor");
 		convertButton.setBounds(140, 180, 95, 30);
+		convertButton.setBackground(new Color(207, 200, 246));
 
 		// Create a exit button
 		JButton exitButton = new JButton("Exit");
 		exitButton.setBounds(140, 230, 95, 30);
+		exitButton.setBackground(new Color(252, 215, 217));
 
 		// Action for the generate button
 		generateButton.addActionListener(new ActionListener() {
@@ -102,14 +106,17 @@ public class main {
 				// Create a button for generating random tests
 				JButton randomButton = new JButton("Random tests");
 				randomButton.setBounds(125, 130, 150, 30);
+				randomButton.setBackground(new Color(207, 200, 246));
 
 				// Create a button for copying files from Cache folder
-				JButton premadeButton = new JButton("Premade tests");
+				JButton premadeButton = new JButton("Default tests");
 				premadeButton.setBounds(125, 180, 150, 30);
+				premadeButton.setBackground(new Color(207, 200, 246));
 
 				// Create a button for returning to initial frame
 				JButton backButton = new JButton("Back");
 				backButton.setBounds(125, 230, 150, 30);
+				backButton.setBackground(new Color(252, 215, 217));
 
 				// Actions for random button
 				randomButton.addActionListener(new ActionListener() {
@@ -150,6 +157,7 @@ public class main {
 				generateFrame.add(backButton);
 
 				generateFrame.setSize(400, 400);
+				generateFrame.getContentPane().setBackground(new Color(235, 234, 242));
 				generateFrame.setLayout(null);
 				generateFrame.setVisible(true);
 			}
@@ -178,6 +186,7 @@ public class main {
 				// Drop down list for convert from options
 				JComboBox<String> cbFrom = new JComboBox<String>(from);
 				cbFrom.setBounds(50, 70, 90, 20);
+				cbFrom.setBackground(new Color(207, 200, 246));
 
 				// Convert TXT to the following
 				String[] txtTo = { "XML", "Json", "Pdf", "Excel" };
@@ -186,12 +195,7 @@ public class main {
 				// Drop down list for convert to options
 				JComboBox<String> cbTo = new JComboBox<String>(txtTo);
 				cbTo.setBounds(250, 70, 90, 20);
-
-				// Label for conversion completed
-				JLabel conversionText = new JLabel("Conversion completed");
-				conversionText.setBounds(129, 300, 200, 30);
-				// Only set it visible after a conversion
-				conversionText.setVisible(false);
+				cbTo.setBackground(new Color(207, 200, 246));
 
 				/*
 				 * Action listener for the second combo box, so we change its contents based on
@@ -207,8 +211,6 @@ public class main {
 							for (String file : xmlTo) {
 								cbTo.addItem(file);
 							}
-							// Hide "Conversion completed" text
-							conversionText.setVisible(false);
 							// Hide progress bar on new selection
 							progressBar.setVisible(false);
 
@@ -219,8 +221,6 @@ public class main {
 							// Add only the possible conversions
 							for (String file : txtTo)
 								cbTo.addItem(file);
-							// Hide "Conversion completed" text
-							conversionText.setVisible(false);
 							// Hide progress bar on new selection
 							progressBar.setVisible(false);
 						}
@@ -230,10 +230,12 @@ public class main {
 				// Convert button
 				convert = new JButton("Convert");
 				convert.setBounds(120, 200, 150, 30);
+				convert.setBackground(new Color(207, 200, 246));
 
 				progressBar.setStringPainted(true);
 				progressBar.setBounds(120, 160, 150, 15);
 				progressBar.setStringPainted(true);
+				progressBar.setForeground(new Color(204, 255, 204));
 
 				// Actions for convert button
 				convert.addActionListener(new ActionListener() {
@@ -250,8 +252,6 @@ public class main {
 							log.error("Error while starting conversion Thread");
 							e1.printStackTrace();
 						}
-						// Conversion completed, set text visible
-						conversionText.setVisible(true);
 						// convertFrame.remove(progressBar);
 					}
 				});
@@ -259,6 +259,7 @@ public class main {
 				// Back button
 				JButton back = new JButton("Back");
 				back.setBounds(120, 250, 150, 30);
+				back.setBackground(new Color(252, 215, 217));
 				// Action for back button
 				back.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
@@ -276,10 +277,10 @@ public class main {
 				convertFrame.add(convert);
 				convertFrame.add(cbTo);
 				convertFrame.add(cbFrom);
-				convertFrame.add(conversionText);
 
 				convertFrame.setLayout(null);
 				convertFrame.setSize(400, 400);
+				convertFrame.getContentPane().setBackground(new Color(235, 234, 242));
 				convertFrame.setVisible(true);
 			}
 		});
@@ -300,6 +301,7 @@ public class main {
 		initialFrame.add(exitButton);
 
 		initialFrame.setSize(400, 400);
+		initialFrame.getContentPane().setBackground(new Color(235, 234, 242));
 		initialFrame.setLayout(null);
 		initialFrame.setVisible(true);
 		// Set the program to exit on frame close
